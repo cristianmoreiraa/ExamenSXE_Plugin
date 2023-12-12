@@ -8,7 +8,7 @@ Plugin Name: Gestion de Notas
 Plugin URI: http://wordpress.org/plugins/gestion-notas/
 Description: Plugin para gestionar las notas de los alumnos en tres trimestres.
 Author: CristianMoreira
-Version: 1.0.9
+Version: 1.1.0
 Author URI: http://tu-sitio-web.com/
 */
 
@@ -115,15 +115,19 @@ if (isset($_GET['insertar_notas'])) {
 // Registrar el shortcode
 add_shortcode('Notas_DAM', 'mostrarNotasShortcode');
 
-// Filtro para cambiar el título de la página
-function cambiarTituloPagina($title) {
-    // Cambiar el título solo si estamos en una página de notas
-    if (is_page() && get_the_title() === 'Notas') {
-        return 'Notas DAM y sus Medias';
-    }
-    return $title;
+function mostrar_datos_title($title) {
+    return 'No me gusta este título';
+}
+add_filter('the_title', 'mostrar_datos_title');
+
+function cambiar_contenido($content) {
+    // Reemplazar la frase específica en el contenido
+    $content = str_replace('Cambiamos este texto por, Notas de los Alumnos', 'Notas DAM2', $content);
+    return $content;
 }
 
-add_filter('the_title', 'cambiarTituloPagina', 999, 1);
+add_filter('the_content', 'cambiar_contenido');
+
+
 
 
